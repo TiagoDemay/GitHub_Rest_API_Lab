@@ -19,37 +19,33 @@ token = GITHUB_TOKEN
 # Autenticação e para utilizar a Biblioteca PyGithub 
 g = Github(GITHUB_TOKEN)
 
+organiz = 'Insper'
 
+# Aqui usaremos dois objetos, pois a paginação do requests só suporta 100 itens.
+r1 = repos_wiki(organiz).requisicao_api_repos()
+r2 = repos_wiki(organiz).requisicao_api_repos()
 
-r1 = requests.get(
-    f"https://api.github.com/orgs/Insper/repos?per_page=100&page=1", auth=('your_user',token))
-resp1 = r1.json() 
-
-r2 = requests.get(
-    f"https://api.github.com/orgs/Insper/repos?per_page=100&page=2", auth=('your_user',token))
-resp2 = r2.json()
-
-if type(resp1) is not int:
-    for i in range(len(resp1)):
-        print('Index:', i, 'Repo:',resp1[i]['name'])
-        urls = (resp1[i]['name'])
-        u = repos_wiki(urls).requisicao_api()
+if type(r1) is not int:
+    for i in range(len(r1)):
+        print('Index:', i, 'Repo:',r1[i]['name'])
+        urls = (r1[i]['name'])
+        u = repos_wiki().requisicao_api_urls(urls)
         r = 'https://github.com/Insper/{}/wiki'.format(urls)
         if u == r:
             print('Wiki encontrada neste repositório')     
 else:
-    print("Erro... - Status Code:", resp1)
+    print("Erro... - Status Code:", r1)
 
-if type(resp2) is not int:
-    for i in range(len(resp2)):
-        print('Index:', i+100, 'Repo:',resp2[i]['name'])
-        urls = (resp2[i]['name'])
-        u = repos_wiki(urls).requisicao_api()
+if type(r2) is not int:
+    for i in range(len(r2)):
+        print('Index:', i+100, 'Repo:',r2[i]['name'])
+        urls = (r2[i]['name'])
+        u = repos_wiki().requisicao_api_urls(urls)
         r = 'https://github.com/Insper/{}/wiki'.format(urls)
         if u == r:
             print('Wiki encontrada neste repositório')  
 else:
-    print("Erro... - Status Code:", resp2)
+    print("Erro... - Status Code:", r2)
 
 
 
