@@ -22,8 +22,8 @@ g = Github(GITHUB_TOKEN)
 organiz = 'Insper'
 
 # Aqui usaremos dois objetos, pois a paginação do requests só suporta 100 itens.
-r1 = repos_wiki(organiz).requisicao_api_repos()
-r2 = repos_wiki(organiz).requisicao_api_repos()
+r1 = repos_wiki(organiz).requisicao_api_repos(1)
+r2 = repos_wiki(organiz).requisicao_api_repos(2)
 
 if type(r1) is not int:
     for i in range(len(r1)):
